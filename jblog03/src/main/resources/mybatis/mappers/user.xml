@@ -8,4 +8,21 @@
 			values (#{id }, #{name }, #{password }, now())
 		]]>
 	</insert>
+	
+	<select id="findByIdAndPassword" parameterType="map" resultType="uservo">
+		<![CDATA[
+		select id, name
+		  	from user
+		 	where id=#{i }
+		   	and password=#{p }
+		]]>
+	</select>
+	
+	<select id="findById" parameterType="string" resultType="uservo">
+		<![CDATA[
+		select id
+		  from user
+		 where id=#{id }
+		]]>
+	</select>
 </mapper>

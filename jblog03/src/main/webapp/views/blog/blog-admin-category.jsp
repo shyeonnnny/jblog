@@ -12,7 +12,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
+			<h1>${blog.title }</h1>
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/views/user/login.jsp">로그인</a></li>
 				<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">로그아웃</a></li>
@@ -34,30 +34,33 @@
 		      			<th>설명</th>
 		      			<th>삭제</th>      			
 		      		</tr>
+		      		<c:set var="count" value="${fn:length(list) }"/>
+		      		<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
-						<td>3</td>
-						<td>미분류</td>
+						<td>${status.index+1}</td>
+						<td>${vo.name }</td>
 						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>  
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
+						<td>${vo.desc }</td>
+						
+						
+						<c:choose>
+						<c:when test="${fn:length(list) eq 1}">
+						<td>
+						<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
+						</c:when>
+						<c:otherwise>
+						<td>
+						<a href="${pageContext.request.contextPath }/blog/delete/${vo.no }">
+						<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
+						</c:otherwise>
+						</c:choose>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>					  
+					</c:forEach>  
+									  
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
+      			<form method="post" action="${pageContext.request.contextPath }/blog/categoryadd">
 		      	<table id="admin-cat-add">
 		      		<tr>
 		      			<td class="t">카테고리명</td>
@@ -72,6 +75,7 @@
 		      			<td><input type="submit" value="카테고리 추가"></td>
 		      		</tr>      		      		
 		      	</table> 
+		      	</form>
 			</div>
 		</div>
 		<div id="footer">

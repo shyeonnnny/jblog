@@ -55,6 +55,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -68,5 +69,6 @@
 	</build>	
 	<modules>
 		<module>jblog03</module>
+		<module>test</module>
 	</modules>
 </project>

@@ -1,5 +1,7 @@
 package com.douzone.jblog.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +24,26 @@ public class UserController {
 		return "user/join";
 	}
 	
+	@RequestMapping("/joinsuccess")
+	public String joinsuccess() {
+		return "user/joinsuccess";
+	}
+	
 	@PostMapping("/join")
-	public String join(UserVo vo, BindingResult result, Model model) {
+	public String join(@Valid UserVo vo, BindingResult result, Model model) {
+		if(result.hasErrors()) { // valid 오류 검사하는것
+			model.addAllAttributes(result.getModel());
+			return "user/join";
+		}
+		
 		userService.join(vo);
 		return "redirect:/user/joinsuccess";
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "user/login";
+	}
+	
 
 }

@@ -8,17 +8,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.9.0.js"></script>
 </head>
 <body>
 	<div class="center-content">
 		<h1 class="logo" style="background:url(${pageContext.request.contextPath}/assets/images/logo.jpg) no-repeat 0 0">JBlog</h1>
-		<c:import url="/views/includes/header.jsp" />
-		<form class="login-form" method="post" action="${pageContext.request.contextPath }/user/auth">
-      		<label>아이디</label> <input type="text" name="id">
-      		<label>패스워드</label> <input type="text" name="password">
-      		<input type="submit" value="로그인">
-		</form>
+		<ul class="menu">
+			<li><a href="${pageContext.request.contextPath}/views/user/login.jsp">로그인</a></li>
+			<li><a href="${pageContext.request.contextPath}/views/user/join.jsp">회원가입</a></li>
+			<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">로그아웃</a></li>
+			<li><a href="${pageContext.request.contextPath}/views/blog/blog-main.jsp">내블로그</a></li>
+		</ul>
+		<p class="welcome-message">
+			<span>${authUser.name }님 , 로그인에 성공하셨습니다.</span>
+			<br><br>
+			<a href="">로그인 하기</a>
+		</p>
 	</div>
 </body>
 </html>

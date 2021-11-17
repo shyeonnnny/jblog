@@ -12,7 +12,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
+			<h1>${blog.title }</h1>
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/views/user/login.jsp">로그인</a></li>
 				<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">로그아웃</a></li>
@@ -23,22 +23,27 @@
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
 					<li class="selected">기본설정</li>
-					<li><a href="${pageContext.request.contextPath}/views/blog/blog-admin-category.jsp">카테고리</a></li>
+					<li><a href="${pageContext.request.contextPath}/blog/blog-admin-category">카테고리</a></li>
 					<li><a href="${pageContext.request.contextPath}/views/blog/blog-admin-write.jsp">글작성</a></li>
 				</ul>
-				<form action="" method="post">
+				<form method="post" action="${pageContext.request.contextPath }/blog/main/update" enctype="multipart/form-data">
+	 		      	<input type="hidden" name="id" value="${blog.id }" />
 	 		      	<table class="admin-config">
 			      		<tr>
-			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title"></td>
+			      			<td class="t">블로그 제목 ${blog.id }</td>
+			      			<td><input type="text" size="40" name="title" value="${blog.title }"></td>
 			      		</tr>
+			      		
 			      		<tr>
 			      			<td class="t">로고이미지</td>
-			      			<td><img src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg"></td>      			
+			      			<td><img src="${pageContext.request.contextPath }${blog.logo }">
+			      			<input type="hidden" name="logo" value="${blog.logo }" />
+			      			</td>
+			      			      			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" name="logo-file"></td>      			
+			      			<td><input type="file" name="file"></td>      			
 			      		</tr>           		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
