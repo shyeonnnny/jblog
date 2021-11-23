@@ -12,8 +12,8 @@ public class BlogService {
 	@Autowired
 	private BlogRepository blogRepository;
 	
-	public BlogVo getBlog(UserVo vo) {
-		return blogRepository.find(vo);
+	public BlogVo getBlog(String id) {
+		return blogRepository.find(id);
 	}
 
 	public boolean update(BlogVo blogVo) {

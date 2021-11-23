@@ -12,8 +12,8 @@ public class BlogRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public BlogVo find(UserVo vo) {
-		return sqlSession.selectOne("blog.find", vo);
+	public BlogVo find(String id) {
+		return sqlSession.selectOne("blog.find", id);
 	}
 	
 	public boolean update(BlogVo vo) {

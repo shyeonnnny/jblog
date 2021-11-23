@@ -23,10 +23,10 @@
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
 					<li class="selected">기본설정</li>
-					<li><a href="${pageContext.request.contextPath}/blog/blog-admin-category">카테고리</a></li>
-					<li><a href="${pageContext.request.contextPath}/views/blog/blog-admin-write.jsp">글작성</a></li>
+					<li><a href="${pageContext.request.contextPath}/blog/${blog.id }/blog-admin-category">카테고리</a></li>
+					<li><a href="${pageContext.request.contextPath}/blog/${blog.id }/blog-admin-write">글작성</a></li>
 				</ul>
-				<form method="post" action="${pageContext.request.contextPath }/blog/main/update" enctype="multipart/form-data">
+				<form method="post" action="${pageContext.request.contextPath }/blog/${blog.id }/main/update" enctype="multipart/form-data">
 	 		      	<input type="hidden" name="id" value="${blog.id }" />
 	 		      	<table class="admin-config">
 			      		<tr>

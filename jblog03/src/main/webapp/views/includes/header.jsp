@@ -15,7 +15,7 @@
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">${authUser.name }님</a></li>
 				<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
-				<li><a href="${pageContext.request.contextPath}/blog">내블로그</a></li>
+				<li><a href="${pageContext.request.contextPath}/blog/${authUser.id }">내블로그</a></li>
 			</ul>
 		</c:otherwise>
 	</c:choose>

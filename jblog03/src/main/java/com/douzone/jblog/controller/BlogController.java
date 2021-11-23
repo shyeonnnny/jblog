@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,12 +17,14 @@ import com.douzone.jblog.security.AuthUser;
 import com.douzone.jblog.service.BlogService;
 import com.douzone.jblog.service.CategoryService;
 import com.douzone.jblog.service.FileUploadService;
+import com.douzone.jblog.service.PostService;
 import com.douzone.jblog.vo.BlogVo;
 import com.douzone.jblog.vo.CategoryVo;
+import com.douzone.jblog.vo.PostVo;
 import com.douzone.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/blog")
+@RequestMapping("/blog/{id}")
 public class BlogController {
 	
 	@Autowired
@@ -34,14 +35,17 @@ public class BlogController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private PostService postService;
 
 	@Autowired
 	private FileUploadService fileUploadService;
 
 	@RequestMapping("")
-	public String main(@AuthUser UserVo vo, Model model) {
-		BlogVo blog = blogService.getBlog(vo);
-		List<CategoryVo> list = categoryService.getCategory(vo.getId());
+	public String main(@PathVariable("id") String id, Model model) {
+		BlogVo blog = blogService.getBlog(id);
+		List<CategoryVo> list = categoryService.getCategory(id);
 		model.addAttribute("blog", blog);
 		model.addAttribute("list", list);
 		return "blog/blog-main";
@@ -49,13 +53,13 @@ public class BlogController {
 
 	@RequestMapping("blog-admin-basic")
 	public String admin(@AuthUser UserVo vo, Model model) {
-		BlogVo blog = blogService.getBlog(vo);
+		BlogVo blog = blogService.getBlog(vo.getId());
 		model.addAttribute("blog", blog);
 		return "blog/blog-admin-basic";
 	}
 	
 	@RequestMapping("main/update")
-	public String admin(BlogVo blog, @RequestParam("file") MultipartFile file) {
+	public String admin(@PathVariable("id") String id,BlogVo blog, @RequestParam("file") MultipartFile file) {
 		try {
 			String logo = fileUploadService.restoreImage(file);
 			blog.setLogo(logo);
@@ -65,31 +69,59 @@ public class BlogController {
 		blogService.update(blog);
 		servletContext.setAttribute("blog", blog);
 		
-		return "redirect:/blog";
+		return "redirect:/blog/"+id;
 	}
+	
 	
 	// -------------------------------------------------------------------------
 	
 	@RequestMapping("blog-admin-category")
 	public String categorymain(@AuthUser UserVo vo, Model model) {
-		System.out.println(vo.getId());
+		BlogVo blog = blogService.getBlog(vo.getId());
+		model.addAttribute("blog", blog);
 		List<CategoryVo> list = categoryService.getCategory(vo.getId());
 		model.addAttribute("list", list);
 		return "blog/blog-admin-category";
 	}
 	
 	@RequestMapping("categoryadd")
-	public String cateadd(CategoryVo vo, @AuthUser UserVo authUser) {
-		System.out.println(vo);
+	public String cateadd(@PathVariable("id") String id,CategoryVo vo, @AuthUser UserVo authUser) {
 		vo.setBlogId(authUser.getId());
 		categoryService.addCategory(vo);
-		return "redirect:/blog/blog-admin-category";
+		return "redirect:/blog/"+id+"/blog-admin-category";
 	}
 	
 	@RequestMapping(value="delete/{no}")
-	public String delete(@PathVariable("no") Long no) {
+	public String delete(@PathVariable("no") Long no, @PathVariable("id") String id) {
 		categoryService.deletecategory(no);
-		return "redirect:/blog/blog-admin-category";
+		return "redirect:/blog/"+id+"/blog-admin-category";
+	}
+	
+	// -------------------------------------------------------------------------
+	
+	@RequestMapping("blog-admin-write")
+	public String adminwrite(@AuthUser UserVo vo, Model model) {
+		BlogVo blog = blogService.getBlog(vo.getId());
+		model.addAttribute("blog", blog);
+		List<CategoryVo> list = categoryService.getCategory(vo.getId());
+		model.addAttribute("categorylist", list);
+		return "blog/blog-admin-write";
+	}
+	
+	@RequestMapping("write")
+	public String write(@AuthUser UserVo authUser,
+			@PathVariable("id") String id,
+			@RequestParam(value = "title",required = true, defaultValue = "") String title,
+			@RequestParam(value = "contents",required = true, defaultValue = "") String content,
+			@RequestParam(value = "category", required = true, defaultValue = "") String no ) {
+		PostVo vo = new PostVo();
+		vo.setCategoryNo(Long.parseLong(no));
+		vo.setTitle(title);
+		vo.setContents(content);
+		
+		postService.write(vo, authUser.getId());
+		return "redirect:/blog/"+id;
+		
 	}
 
 }
