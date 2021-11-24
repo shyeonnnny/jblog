@@ -42,10 +42,30 @@ public class BlogController {
 	@Autowired
 	private FileUploadService fileUploadService;
 
-	@RequestMapping("")
-	public String main(@PathVariable("id") String id, Model model) {
+	@RequestMapping({"","/{no}","/{no}/{pno}"})
+	public String main(@PathVariable(value="no", required=false) Long no,
+					   @PathVariable(value="pno", required=false) Long pno,
+					   @PathVariable("id") String id, Model model) {
 		BlogVo blog = blogService.getBlog(id);
+
 		List<CategoryVo> list = categoryService.getCategory(id);
+		
+//		if(no == null) {
+//			for(CategoryVo vo : list) {
+//				if(vo.isDefault) no = vo.getNo();
+//			}			
+//		}
+		
+		if(no == null) no = list.get(0).getNo();
+		
+		List<PostVo> post = postService.getPost(no);
+		
+		if(pno == null && post.size() != 0) pno = post.get(0).getNo();
+		
+		PostVo pvo = postService.getContents(pno);
+		
+		model.addAttribute("pvo", pvo);
+		model.addAttribute("post", post);
 		model.addAttribute("blog", blog);
 		model.addAttribute("list", list);
 		return "blog/blog-main";
@@ -71,6 +91,9 @@ public class BlogController {
 		
 		return "redirect:/blog/"+id;
 	}
+	
+
+	
 	
 	
 	// -------------------------------------------------------------------------

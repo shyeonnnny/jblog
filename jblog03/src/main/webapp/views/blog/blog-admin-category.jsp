@@ -16,12 +16,13 @@
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/views/user/login.jsp">로그인</a></li>
 				<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">로그아웃</a></li>
-				<li><a href="${pageContext.request.contextPath}/views/blog/blog-admin-basic.jsp">블로그 관리</a></li>
+				<li><a href="${pageContext.request.contextPath}/blog/${blog.id }">홈</a></li>
 			</ul>
 		</div>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
+				
 					<li><a href="${pageContext.request.contextPath}/blog/${blog.id }/blog-admin-basic">기본설정</a></li>
 					<li class="selected">카테고리</li>
 					<li><a href="${pageContext.request.contextPath}/blog/${blog.id }/blog-admin-write">글작성</a></li>
@@ -39,7 +40,7 @@
 					<tr>
 						<td>${status.index+1}</td>
 						<td>${vo.name }</td>
-						<td>10</td>
+						<td>${vo.postcount }</td>
 						<td>${vo.desc }</td>
 						
 						

@@ -18,4 +18,10 @@
 			delete from category where no = #{no }
 		]]>
 	</delete>
+	
+	<select id="findCount" parameterType="String" resultType="categoryvo">
+		<![CDATA[
+			select b.no as no, count(*) as postcount from post a, category b where a.category_no=b.no and blog_id=#{id} group by category_no
+		]]>
+	</select>
 </mapper>

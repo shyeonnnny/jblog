@@ -14,7 +14,18 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	
 	public List<CategoryVo> getCategory(String blogId){
-		return categoryRepository.findAll(blogId);
+		List<CategoryVo> catelist = categoryRepository.findAll(blogId);
+		List<CategoryVo> count = categoryRepository.findCount(blogId);
+		
+		for(int i=0; i<catelist.size(); i++) {
+			for(int j=0; j<count.size(); j++) {
+				if(catelist.get(i).getNo() == count.get(j).getNo()) {
+					catelist.get(i).setPostcount(count.get(j).getPostcount());
+					break;
+				}
+			}
+		}
+		return catelist;
 	}
 	
 	public boolean addCategory(CategoryVo vo) {

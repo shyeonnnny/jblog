@@ -16,7 +16,7 @@
 			<ul>
 				<li><a href="${pageContext.request.contextPath}/views/user/login.jsp">로그인</a></li>
 				<li><a href="${pageContext.request.contextPath}/views/main/index.jsp">로그아웃</a></li>
-				<li><a href="${pageContext.request.contextPath}/views/blog/blog-admin-basic.jsp">블로그 관리</a></li>
+				<li><a href="${pageContext.request.contextPath}/blog/${blog.id }">홈</a></li>
 			</ul>
 		</div>
 		<div id="wrapper">

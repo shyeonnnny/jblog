@@ -28,4 +28,8 @@ public class CategoryRepository {
 		int count = sqlSession.delete("category.delete", vo);
 		return count == 1;
 	}
+	
+	public List<CategoryVo> findCount(String blogId){
+		return sqlSession.selectList("category.findCount", blogId);
+	}
 }

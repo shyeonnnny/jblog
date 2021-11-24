@@ -5,7 +5,14 @@ public class CategoryVo {
 	private String name;
 	private String desc;
 	private String blogId;
+	private long postcount;
 	
+	public Long getPostcount() {
+		return postcount;
+	}
+	public void setPostcount(Long postcount) {
+		this.postcount = postcount;
+	}
 	public Long getNo() {
 		return no;
 	}
