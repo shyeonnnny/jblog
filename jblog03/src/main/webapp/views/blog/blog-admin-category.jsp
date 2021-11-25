@@ -8,6 +8,39 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+	var render = function(vo, index, size){
+		var html =
+			"<tr>" +
+				"<td>" + (index+1) + "</td>" +
+				"<td>" +vo.name + "</td>" +
+				"<td>" + vo.postcount + "</td>" +
+				"<td>" +vo.desc + "</td>"
+				
+		if(size == 1){
+			html += "<td>" +
+			"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>" 
+		} else {
+			html += "<td>" +
+			"<a href='${pageContext.request.contextPath }/blog/${blog.id }/delete/'"+ vo.no + ">" +
+			"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></a></td>" 
+		}
+		html += "</tr>"
+		
+		return html;
+	}
+	
+	var fetchcategory = function(){
+		$.ajax({
+			url: ''
+		})
+	}
+	
+	
+	
+	
+</script>
 </head>
 <body>
 	<div id="container">
@@ -33,29 +66,12 @@
 		      			<th>카테고리명</th>
 		      			<th>포스트 수</th>
 		      			<th>설명</th>
-		      			<th>삭제</th>      			
+		      			<th>삭제</th>
+		      			     			
 		      		</tr>
 		      		<c:set var="count" value="${fn:length(list) }"/>
 		      		<c:forEach items="${list }" var="vo" varStatus="status">
-					<tr>
-						<td>${status.index+1}</td>
-						<td>${vo.name }</td>
-						<td>${vo.postcount }</td>
-						<td>${vo.desc }</td>
-						
-						
-						<c:choose>
-						<c:when test="${fn:length(list) eq 1}">
-						<td>
-						<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-						</c:when>
-						<c:otherwise>
-						<td>
-						<a href="${pageContext.request.contextPath }/blog/${blog.id }/delete/${vo.no }">
-						<img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
-						</c:otherwise>
-						</c:choose>
-					</tr>
+		      		
 					</c:forEach>  
 									  
 				</table>
