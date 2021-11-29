@@ -11,23 +11,20 @@
 s/css/jblog.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-	var startNo = 0;
-	
 	var render = function(vo, index, size){
 		var html =
-			"<tr>" +
-				"<td class='index'>" + (index) + "</td>" +
+			"<tr data-no='" +vo.no + "'>" +
 				"<td>" +vo.name + "</td>" +
 				"<td>" + vo.postcount + "</td>" +
 				"<td>" +vo.desc + "</td>"
 				
 		if(size == 1){
 			html += "<td>" +
-			"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>" 
+			"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg' class='rm-cate'></td>" 
 		} else {
 			html += "<td>" +
 			"<a href='${pageContext.request.contextPath }/blog/${blog.id }/delete/" + vo.no + "'" + ">" +
-			"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></a></td>" 
+			"<img data-no='" +vo.no + "' src='${pageContext.request.contextPath}/assets/images/delete.jpg' class='rm-cate'></a></td>" 
 		}
 		html += "</tr>"
 		
@@ -86,10 +83,37 @@ s/css/jblog.css">
 				
 			})
 		})
-	fetchcategory();
+
+		// on으로 해주는이유는 fetchcategory()가 비동기라서 실행되는 시점이 랜덤이기때문에
+		// click이벤트가 먼저 달릴수도있고 안달릴수도있어서 on을써주면 미리 다달아주고 새로등록된곳에도
+		// 달아주기때문에 on을 쓴다 (live와 같은 기능)
+		$(".admin-cat").on("click", ".rm-cate",function(event){
+			event.preventDefault();
+			var cateno = $(event.target).data("no")
+			a = event.target;
+			
+			console.log(cateno);
+			console.log($(event.target).data("no"))
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/blog/${blog.id}/catedelete/' + cateno,
+				type: 'delete',
+				dataType: 'json',
+				data: 'cateno=' + cateno,
+				success: function(response){
+					if(response.result != "success"){
+						console.error(response.message);
+						return;
+					}
+					
+					$('tr[data-no=' + $(a).data("no") + ']').remove()
+					console.log(a.parentNode)
+				}
+				})
+			
+		})
+		fetchcategory();
 	})
-
-
 	
 	
 	
@@ -116,7 +140,6 @@ s/css/jblog.css">
 				</ul>
 		      	<table class="admin-cat">
 		      		<tr>
-		      			<th>번호</th>
 		      			<th>카테고리명</th>
 		      			<th>포스트 수</th>
 		      			<th>설명</th>

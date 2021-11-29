@@ -7,7 +7,7 @@
 		]]>
 	</select>
 	
-	<insert id="insert" parameterType="categoryvo">
+	<insert id="insert" parameterType="categoryvo" useGeneratedKeys="true" keyProperty="no">
 		<![CDATA[
 			insert into category values(null, #{name }, #{desc }, #{blogId })
 		]]>
