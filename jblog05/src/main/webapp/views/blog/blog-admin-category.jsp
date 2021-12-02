@@ -64,6 +64,8 @@ s/css/jblog.css">
 			vo.name = $("#input-name").val();
 			vo.desc = $("#input-desc").val();
 			
+			
+			
 			$.ajax({
 				url: '${pageContext.request.contextPath }/blog/${blog.id}/cateadd',
 				type: 'post',
@@ -95,6 +97,12 @@ s/css/jblog.css">
 			console.log(cateno);
 			console.log($(event.target).data("no"))
 			
+			var list = document.getElementsByTagName('tbody')[0]
+					
+					if(list.childElementCount == 2) {
+						return;
+					}
+			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/blog/${blog.id}/catedelete/' + cateno,
 				type: 'delete',
@@ -107,6 +115,7 @@ s/css/jblog.css">
 					
 					$('tr[data-no=' + $(a).data("no") + ']').remove()
 					console.log(a.parentNode)
+					
 				}
 				})
 			
