@@ -71,5 +71,6 @@
 		<module>jblog03</module>
 		<module>test</module>
 		<module>jblog04</module>
+		<module>jblog05</module>
 	</modules>
 </project>

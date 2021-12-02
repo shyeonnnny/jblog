@@ -20,8 +20,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-
-		System.out.println(id + "#######################" + password);
 		
 		UserVo authUser = userService.getUser(id, password);
 		if(authUser == null) {

@@ -99,7 +99,6 @@ s/css/jblog.css">
 				url: '${pageContext.request.contextPath}/blog/${blog.id}/catedelete/' + cateno,
 				type: 'delete',
 				dataType: 'json',
-				data: 	
 				success: function(response){
 					if(response.result != "success"){
 						console.error(response.message);

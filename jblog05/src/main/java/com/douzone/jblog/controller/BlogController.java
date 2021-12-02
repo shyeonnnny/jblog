@@ -88,7 +88,6 @@ public class BlogController {
 	@RequestMapping("main/update")
 	public String admin(@PathVariable("id") String id,BlogVo blog, @RequestParam("file") MultipartFile file) {
 		try {
-			System.out.println(file);
 			String logo = fileUploadService.restoreImage(file);
 			blog.setLogo(logo);
 		} catch(FileUploadException ex) {
